@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="10">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_Shop_Url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:textColorHint="#ffffff"
+        android:theme="@style/myEditTextStyle"
+        android:layout_marginBottom="15dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/Edit_Insert_shopUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Insert Url"
+            android:fontFamily="@font/gtham"
+            android:drawableEnd="@drawable/internet"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/Add_shop_btn"
+        android:text="ADD"
+        android:background="@drawable/bg_button_white"
+        android:fontFamily="@font/gtham"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/shop_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+</LinearLayout>
