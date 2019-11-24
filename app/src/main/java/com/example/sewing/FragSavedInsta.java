@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -14,8 +16,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -46,13 +51,17 @@ public class FragSavedInsta extends Fragment {
     private RecyclerView insta_recyclerview;
     private List<Item_insta> item_instas;
     String logined_id;
+    ViewPager vp;
+
 
     public FragSavedInsta (){
 
     }
 
-    public FragSavedInsta(String logined_id){
+    public FragSavedInsta(String logined_id, ViewPager vp){
         this.logined_id = logined_id;
+        this.vp = vp;
+
     }
 
     public FragSavedInsta (List<Item_insta> item_instas){
@@ -76,7 +85,7 @@ public class FragSavedInsta extends Fragment {
         insta_recyclerview = view.findViewById(R.id.insta_recyclerview);
         btnPlus = (Button)view.findViewById(R.id.btnPlus);
         btnDel = (ImageButton)view.findViewById(R.id.Del_insta_btn);
-        final InstaRecyclerViewAdapter instaRecyclerViewAdapter = new InstaRecyclerViewAdapter(getContext(), item_instas,logined_id);
+        final InstaRecyclerViewAdapter instaRecyclerViewAdapter = new InstaRecyclerViewAdapter(getContext(), item_instas, logined_id, vp);
         insta_recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         insta_recyclerview.setAdapter(instaRecyclerViewAdapter);
 
@@ -107,6 +116,7 @@ public class FragSavedInsta extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
 
         //인스타그램 아이디를 입력하여 fragment와 db에 추가
         btnPlus.setOnClickListener(new View.OnClickListener() {
@@ -145,6 +155,41 @@ public class FragSavedInsta extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+            }
+        });
+
+
+        insta_recyclerview.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+                View child = rv.findChildViewUnder(e.getX(), e.getY());
+
+                if( child != null){
+                    int position = rv.getChildAdapterPosition(child);
+                    String insta_id = item_instas.get(position).getId();
+                    Log.d(insta_id, "test click");
+                    FragSavedPhoto fragSavedPhoto = new FragSavedPhoto(insta_id);
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.main_fragSavedInsta,fragSavedPhoto).commit();
+
+                    vp.setCurrentItem(vp.getCurrentItem()+1, true);
+
+                }
+
+                return true;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
             }
         });

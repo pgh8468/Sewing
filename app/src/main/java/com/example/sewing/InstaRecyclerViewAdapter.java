@@ -3,6 +3,7 @@ package com.example.sewing;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.tabs.TabLayout;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -30,17 +35,21 @@ public class InstaRecyclerViewAdapter extends RecyclerView.Adapter<InstaRecycler
     Context context;
     List<Item_insta> insta_data; //item_insta의 아이템을 가르킴
     String logined_ID;
+    ViewPager vp;
+
 
     public interface OnListItemSelectedInterface{
         void onItemSelected(View v, int position);
     }
 
-    private OnListItemSelectedInterface selectedListener;
+    private OnListItemSelectedInterface onListItemSelectedInterface;
 
-    public InstaRecyclerViewAdapter(Context context, List<Item_insta> insta_data, String logined_ID) {
+    public InstaRecyclerViewAdapter(Context context, List<Item_insta> insta_data, String logined_ID, ViewPager vp) {
         this.context = context;
         this.insta_data = insta_data;
         this.logined_ID = logined_ID;
+        this.vp = vp;
+
     }
 
     @NonNull
@@ -63,16 +72,20 @@ public class InstaRecyclerViewAdapter extends RecyclerView.Adapter<InstaRecycler
 //        holder.save_profile.setImageResource(insta_data.get(position).getProfile());
         Glide.with(this.context).load(insta_data.get(position).getProfile()).into(holder.save_profile);
 
-        //원하는 ID 클릭 시 인스타그램에서 사진 가져오도록 함
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, FragSavedPhoto.class);
-
-                Toast.makeText(context, holder.save_id.getText(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(context,logined_ID, Toast.LENGTH_SHORT).show();
-            }
-        });
+//        //원하는 ID 클릭 시 인스타그램에서 사진 가져오도록 함
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(context, FragSavedPhoto.class);
+//
+//                Toast.makeText(context, holder.save_id.getText(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context,logined_ID, Toast.LENGTH_SHORT).show();
+//
+//                vp.setCurrentItem(vp.getCurrentItem()+1, true);
+//
+//
+//            }
+//        });
 
         //ID 삭제
         holder.delete_Id.setOnClickListener(new View.OnClickListener() {
@@ -121,13 +134,15 @@ public class InstaRecyclerViewAdapter extends RecyclerView.Adapter<InstaRecycler
         private ImageButton delete_Id;
 
 
-        public InstaViewHolder(@NonNull View itemView) {
+
+        public InstaViewHolder(@NonNull final View itemView) {
             super(itemView);
 
             save_profile = itemView.findViewById(R.id.Img_profile);
             save_id = itemView.findViewById(R.id.Insta_id);
             save_follow = itemView.findViewById(R.id.Insta_follow);
             delete_Id = itemView.findViewById(R.id.Del_insta_btn);
+
 
         }
 

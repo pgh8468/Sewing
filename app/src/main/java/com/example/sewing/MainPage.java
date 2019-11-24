@@ -29,7 +29,7 @@ public class MainPage extends AppCompatActivity {
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         //Add Fragmnet
-        viewPagerAdapter.AddFragment(new FragSavedInsta(logined_id), "");
+        viewPagerAdapter.AddFragment(new FragSavedInsta(logined_id,viewPager), "");
         viewPagerAdapter.AddFragment(new FragSavedPhoto(), "");
         viewPagerAdapter.AddFragment(new FragSavedShop(), "");
 
@@ -40,5 +40,6 @@ public class MainPage extends AppCompatActivity {
         tabLayout.getTabAt(1).setIcon(R.drawable.photo);
         tabLayout.getTabAt(2).setIcon(R.drawable.shopping);
     }
+
 
 }

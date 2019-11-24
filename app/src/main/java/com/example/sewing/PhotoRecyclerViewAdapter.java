@@ -12,6 +12,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
@@ -19,11 +20,14 @@ public class PhotoRecyclerViewAdapter extends RecyclerView.Adapter<PhotoRecycler
 
     private Context context;
     private List<Item_Photo> photo_data;
+    RequestOptions option;
 
     public PhotoRecyclerViewAdapter(Context context, List<Item_Photo> photo_data) {
         this.context = context;
         this.photo_data = photo_data;
 
+        //request option for Glide
+        option = new RequestOptions().centerCrop().placeholder(R.drawable.internet).error(R.drawable.internet);
 
     }
 
@@ -43,7 +47,7 @@ public class PhotoRecyclerViewAdapter extends RecyclerView.Adapter<PhotoRecycler
     public void onBindViewHolder(@NonNull MyVIewHolder holder, int position) {
 //        holder.save_photo.setImageResource(photo_data.get(position).getPhoto());
 
-        Glide.with(context).load(photo_data.get(position).getPhoto()).into(holder.save_photo);
+        Glide.with(context).load(photo_data.get(position).getPhoto()).apply(option).into(holder.save_photo);
     }
 
     @Override
