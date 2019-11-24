@@ -4,9 +4,9 @@ public class Item_insta {
 
     private String Id;
     private String Follow;
-    private int Profile;
+    private String Profile;
 
-    public Item_insta(String id, String follow, int profile) {
+    public Item_insta(String id, String follow, String profile) {
         this.Id = id;
         this.Follow = follow;
         this.Profile = profile;
@@ -22,7 +22,7 @@ public class Item_insta {
         return Follow;
     }
 
-    public int getProfile() {
+    public String getProfile() {
         return Profile;
     }
 
@@ -36,7 +36,7 @@ public class Item_insta {
         Follow = follow;
     }
 
-    public void setProfile(int profile) {
+    public void setProfile(String profile) {
         Profile = profile;
     }
 }

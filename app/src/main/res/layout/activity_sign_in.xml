@@ -35,11 +35,12 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputEditText_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/ic_perm_white_24dp"
             android:fontFamily="@font/gtham"
-            android:hint="Password" />
+            android:hint="ID" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -58,6 +59,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputEditText_pw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/ic_lock_white_24dp"
@@ -81,6 +83,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputEditText_pw_check"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/ic_lock_white_24dp"
@@ -103,6 +106,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputEditText_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/gtham"
@@ -130,7 +134,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="#00FFFFFF"
         android:fontFamily="@font/gtham"
-        android:text="Thanks For Sign In"
+        android:text="Thanks For Sign Up"
         android:textColor="#ffffff"
         android:textSize="20dp"
         android:layout_marginStart="10dp"

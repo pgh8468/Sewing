@@ -20,9 +20,21 @@ public class FragSavedPhoto extends Fragment {
     private View view;
     private RecyclerView photo_recyclerview;
     private List<Item_Photo> item_photo = new ArrayList<>();
+    private String check;
 
-    public static FragSavedPhoto newinstance() {
+    public FragSavedPhoto(){
+
+    }
+
+    public FragSavedPhoto(List<Item_Photo> item_photos){
+        this.item_photo = item_photos;
+    }
+
+    public static FragSavedPhoto newinstance(String ID) {
         FragSavedPhoto fragSavedPhoto = new FragSavedPhoto();
+        Bundle args = new Bundle();
+        args.putString("selected_id", ID);
+        fragSavedPhoto.setArguments(args);
         return fragSavedPhoto;
     }
 
@@ -48,11 +60,15 @@ public class FragSavedPhoto extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        item_photo.add(new Item_Photo(R.drawable.tprud));
-        item_photo.add(new Item_Photo(R.drawable.ab));
-        item_photo.add(new Item_Photo(R.drawable.ac));
-        item_photo.add(new Item_Photo(R.drawable.ad));
-        item_photo.add(new Item_Photo(R.drawable.aw));
+        if(getArguments() != null){
+            check = getArguments().getString("selected_id");
+        }
+
+//        item_photo.add(new Item_Photo(R.drawable.tprud));
+//        item_photo.add(new Item_Photo(R.drawable.ab));
+//        item_photo.add(new Item_Photo(R.drawable.ac));
+//        item_photo.add(new Item_Photo(R.drawable.ad));
+//        item_photo.add(new Item_Photo(R.drawable.aw));
 
     }
 }

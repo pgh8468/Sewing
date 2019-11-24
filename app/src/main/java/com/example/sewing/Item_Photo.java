@@ -2,17 +2,17 @@ package com.example.sewing;
 
 public class Item_Photo {
 
-    private int Photo;
+    private String Photo;
 
-    public Item_Photo(int Photo) {
+    public Item_Photo(String Photo) {
 
     }
 
-    public void setPhoto(int photo) {
+    public void setPhoto(String photo) {
         Photo = photo;
     }
 
-    public int getPhoto() {
+    public String getPhoto() {
         return Photo;
     }
 }
