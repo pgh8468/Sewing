@@ -87,13 +87,6 @@ public class FragSavedInsta extends Fragment {
         insta_recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         insta_recyclerview.setAdapter(instaRecyclerViewAdapter);
 
-        //insert_id = Edit_Insert_Insta_id.getText().toString();
-
-        Toast.makeText(getContext(),"test:"+ getContext(),Toast.LENGTH_SHORT).show();
-
-//        Activity act = getActivity();
-//        Toast.makeText(act,logined_id,Toast.LENGTH_SHORT).show();
-
         //사용자가 추가한 목록 출력
         URL_make url_make = new URL_make("saved_instaID");
         String inputURL = url_make.make_url();
@@ -114,7 +107,6 @@ public class FragSavedInsta extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
 
         //인스타그램 아이디를 입력하여 fragment와 db에 추가
         btnPlus.setOnClickListener(new View.OnClickListener() {
@@ -177,7 +169,8 @@ public class FragSavedInsta extends Fragment {
 
 //                    vp.setCurrentItem(vp.getCurrentItem()+1, true);
                     Activity act = getActivity();
-                    Intent intent = new Intent(act, Click_photo_Activity.class);
+                    Intent intent = new Intent(act, Photo_Activity.class);
+                    intent.putExtra("insta_id", insta_id);
                     startActivity(intent);
 
                 }
@@ -206,7 +199,7 @@ public class FragSavedInsta extends Fragment {
         setHasOptionsMenu(true);
 
         item_instas = new ArrayList<>();
-        //item_instas.add(new Item_insta("신세경", "30,000", "https://scontent-icn1-1.cdninstagram.com/vp/9632922c4724f8e750a21c6e2136baf1/5E84C82C/t51.2885-19/s150x150/54247792_421859985052584_2378836261877055488_n.jpg?_nc_ht=scontent-icn1-1.cdninstagram.com"));
+
     }
 
     public class Add_Insta_User extends AsyncTask<String, Void, String>{

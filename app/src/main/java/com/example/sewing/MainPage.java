@@ -30,7 +30,7 @@ public class MainPage extends AppCompatActivity {
 
         //Add Fragmnet
         viewPagerAdapter.AddFragment(new FragSavedInsta(logined_id,viewPager), "");
-        viewPagerAdapter.AddFragment(new FragSavedPhoto(), "");
+        viewPagerAdapter.AddFragment(new FragSavedPhoto(logined_id), "");
         viewPagerAdapter.AddFragment(new FragSavedShop(), "");
 
         viewPager.setAdapter(viewPagerAdapter);

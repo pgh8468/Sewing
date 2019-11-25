@@ -21,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -34,7 +35,7 @@ public class FragSavedPhoto extends Fragment {
 
     private View view;
     private RecyclerView photo_recyclerview;
-    private List<Item_Photo> item_photo;
+    private List<Item_Photo> item_photo = new ArrayList<>();
     private String check;
 
     public FragSavedPhoto(){
@@ -43,9 +44,9 @@ public class FragSavedPhoto extends Fragment {
 
     public FragSavedPhoto(String check){
         this.check = check;
-        Bundle args = new Bundle();
-        args.putString("selected_id", check);
-        this.setArguments(args);
+//        Bundle args = new Bundle();
+//        args.putString("selected_id", check);
+//        this.setArguments(args);
 
     }
 
@@ -68,67 +69,101 @@ public class FragSavedPhoto extends Fragment {
         view = inflater.inflate(R.layout.frag_saved_photo, container, false);
 
         photo_recyclerview = view.findViewById(R.id.photo_recyclerview);
-
-        if(check != null){
-            for (int zaq = 0; zaq<item_photo.size(); zaq++){
-                Log.e("a","a");
-            }
-        }
-
         //photo_recyclerview.setHasFixedSize(true);
 
-        if(check != null){
-            check = getArguments().getString("selected_id");
-            Activity act = getActivity();
-            Log.d(check, "test click/f");
-            Toast.makeText(act,"흥민아 떳냐? "+ check, Toast.LENGTH_SHORT).show();
-            URL_make url_make = new URL_make("print_insta_ID");
-            String inputURL = url_make.make_url();
-            String response = "";
-            String url_1 = "https://icon-library.net/images/no-image-available-icon/no-image-available-icon-6.jpg";
 
-            try {
-                response = new get_image_resource().execute(inputURL).get();
-//                Image_Input_Into_List image_input_into_list = new Image_Input_Into_List();
-//                image_input_into_list.execute(response);
+//        if(check != null){
+//            check = getArguments().getString("selected_id");
+//            Activity act = getActivity();
+//            Log.d(check, "test click/f");
+//            Toast.makeText(act,"흥민아 떳냐? "+ check, Toast.LENGTH_SHORT).show();
+//            URL_make url_make = new URL_make("print_insta_ID");
+//            String inputURL = url_make.make_url();
+//            String response = "";
+//            String url_1 = "https://icon-library.net/images/no-image-available-icon/no-image-available-icon-6.jpg";
+//
+//            try {
+//                response = new get_image_resource().execute(inputURL).get();
+////                Image_Input_Into_List image_input_into_list = new Image_Input_Into_List();
+////                image_input_into_list.execute(response);
+//                JSONArray jsonArray = new JSONArray(response);
+//                int json_lenght = jsonArray.length();
+//
+//                for(int i=0; i<jsonArray.length(); i++){
+//                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+//                    //Log.e("ary", jsonObject.get("src").toString());
+//
+//                    if (jsonObject.get("src").toString() == null){
+//                        url_1 = "https://icon-library.net/images/no-image-available-icon/no-image-available-icon-6.jpg";
+//                    }
+//                    Item_Photo ip = new Item_Photo();
+//                    ip.setPhoto(jsonObject.get("src").toString());
+//                    item_photo.add(ip);
+//
+//                    //url_1 = jsonObject.get("src").toString();
+//                }
+//
+//            } catch (ExecutionException e) {
+//                e.printStackTrace();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//        Log.d(check, "test click/f");
+//        Log.d(Integer.toString(item_photo.size()), "test check/f");
+//        if(check != null){
+//            for (int zaq = 0; zaq<item_photo.size(); zaq++){
+//                Log.e("a",item_photo.get(zaq).getPhoto());
+//            }
+//        }
+
+        URL_make url_make = new URL_make("show_saved_Image");
+        String inputURL = url_make.make_url();
+        String response = "";
+
+        try {
+            //check = logined_id
+            response = new Take_Saved_Image().execute(inputURL, check).get();
+
+            if(response.equals("0")){
+                Activity act = getActivity();
+                Toast.makeText(act, "저장되어 있는 사진이 없습니다.", Toast.LENGTH_SHORT).show();
+            }
+
+            else{
+
                 JSONArray jsonArray = new JSONArray(response);
-                int json_lenght = jsonArray.length();
-
-                for(int i=0; i<jsonArray.length(); i++){
+                for(int i =0; i<jsonArray.length(); i++){
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    //Log.e("ary", jsonObject.get("src").toString());
 
-                    if (jsonObject.get("src").toString() == null){
-                        url_1 = "https://icon-library.net/images/no-image-available-icon/no-image-available-icon-6.jpg";
+                    if(jsonObject.get("iURL").toString() == null){
+                        //가져온 이미지가 null일 경우의 default image 처리
                     }
                     Item_Photo ip = new Item_Photo();
-                    ip.setPhoto(jsonObject.get("src").toString());
+                    ip.setPhoto(jsonObject.get("iURL").toString());
                     item_photo.add(ip);
 
-                    //url_1 = jsonObject.get("src").toString();
                 }
 
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
+
+
             }
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
-        Log.d(check, "test click/f");
-        Log.d(Integer.toString(item_photo.size()), "test check/f");
-        if(check != null){
-            for (int zaq = 0; zaq<item_photo.size(); zaq++){
-                Log.e("a",item_photo.get(zaq).getPhoto());
-            }
-        }
+
         PhotoRecyclerViewAdapter photoRecyclerViewAdapter = new PhotoRecyclerViewAdapter(getContext(), item_photo);
         photo_recyclerview.setLayoutManager(new GridLayoutManager(getContext(), 3));
         photo_recyclerview.setAdapter(photoRecyclerViewAdapter);
 
-        Log.e("test","여기까지는 작업하냐?");
         return  view;
 
     }
@@ -138,7 +173,6 @@ public class FragSavedPhoto extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        item_photo = new ArrayList<>();
 
 //        if(check != null){
 //            check = getArguments().getString("selected_id");
@@ -214,6 +248,49 @@ public class FragSavedPhoto extends Fragment {
                     //404 error
                 }
                 con.disconnect();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return output.toString();
+        }
+    }
+
+    public class Take_Saved_Image extends AsyncTask<String, Void, String>{
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            StringBuilder output = new StringBuilder();
+
+            try {
+                URL url = new URL(params[0]);
+                HttpURLConnection con = (HttpURLConnection)url.openConnection();
+
+                con.setRequestMethod("POST");
+                con.setDoInput(true);
+                con.setDoOutput(true);
+                //con.setRequestProperty("Accept", "application/x-www-form-urlencoded;charset=UTF-8");
+
+                DataOutputStream dos = new DataOutputStream(con.getOutputStream());
+                dos.writeBytes("login_id="+params[1]);
+                dos.flush();
+                dos.close();
+
+                InputStreamReader is = new InputStreamReader(con.getInputStream());
+                BufferedReader reader = new BufferedReader(is);
+                String results = "";
+
+                while(true){
+                    results = reader.readLine();
+                    if(results == null){
+                        break;
+                    }output.append(results);
+                }
+
+                con.disconnect();
+
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
