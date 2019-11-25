@@ -25,6 +25,7 @@ public class PhotoRecyclerViewAdapter extends RecyclerView.Adapter<PhotoRecycler
     public PhotoRecyclerViewAdapter(Context context, List<Item_Photo> photo_data) {
         this.context = context;
         this.photo_data = photo_data;
+        Log.d(Integer.toString(photo_data.size()), "test check/adapter");
 
         //request option for Glide
         option = new RequestOptions().centerCrop().placeholder(R.drawable.internet).error(R.drawable.internet);

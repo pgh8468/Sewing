@@ -34,7 +34,7 @@ public class FragSavedPhoto extends Fragment {
 
     private View view;
     private RecyclerView photo_recyclerview;
-    private List<Item_Photo> item_photo = new ArrayList<>();
+    private List<Item_Photo> item_photo;
     private String check;
 
     public FragSavedPhoto(){
@@ -69,12 +69,13 @@ public class FragSavedPhoto extends Fragment {
 
         photo_recyclerview = view.findViewById(R.id.photo_recyclerview);
 
-        PhotoRecyclerViewAdapter photoRecyclerViewAdapter = new PhotoRecyclerViewAdapter(getContext(), item_photo);
-        photo_recyclerview.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        photo_recyclerview.setAdapter(photoRecyclerViewAdapter);
+        if(check != null){
+            for (int zaq = 0; zaq<item_photo.size(); zaq++){
+                Log.e("a","a");
+            }
+        }
 
         //photo_recyclerview.setHasFixedSize(true);
-
 
         if(check != null){
             check = getArguments().getString("selected_id");
@@ -88,31 +89,44 @@ public class FragSavedPhoto extends Fragment {
 
             try {
                 response = new get_image_resource().execute(inputURL).get();
-                Image_Input_Into_List image_input_into_list = new Image_Input_Into_List();
-                image_input_into_list.execute(response);
-//                JSONArray jsonArray = new JSONArray(response);
-//                int json_lenght = jsonArray.length();
-//
-//                for(int i=0; i<jsonArray.length(); i++){
-//                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-//                    //Log.e("ary", jsonObject.get("src").toString());
-//
-//                    if (jsonObject.get("src").toString() == null){
-//                        url_1 = "https://icon-library.net/images/no-image-available-icon/no-image-available-icon-6.jpg";
-//                    }
-//                    Item_Photo ip = new Item_Photo();
-//                    ip.setPhoto(jsonObject.get("src").toString());
-//                    item_photo.add(ip);
-//
-//                    //url_1 = jsonObject.get("src").toString();
-//                }
+//                Image_Input_Into_List image_input_into_list = new Image_Input_Into_List();
+//                image_input_into_list.execute(response);
+                JSONArray jsonArray = new JSONArray(response);
+                int json_lenght = jsonArray.length();
+
+                for(int i=0; i<jsonArray.length(); i++){
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    //Log.e("ary", jsonObject.get("src").toString());
+
+                    if (jsonObject.get("src").toString() == null){
+                        url_1 = "https://icon-library.net/images/no-image-available-icon/no-image-available-icon-6.jpg";
+                    }
+                    Item_Photo ip = new Item_Photo();
+                    ip.setPhoto(jsonObject.get("src").toString());
+                    item_photo.add(ip);
+
+                    //url_1 = jsonObject.get("src").toString();
+                }
 
             } catch (ExecutionException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
                 e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }
+
+        Log.d(check, "test click/f");
+        Log.d(Integer.toString(item_photo.size()), "test check/f");
+        if(check != null){
+            for (int zaq = 0; zaq<item_photo.size(); zaq++){
+                Log.e("a",item_photo.get(zaq).getPhoto());
+            }
+        }
+        PhotoRecyclerViewAdapter photoRecyclerViewAdapter = new PhotoRecyclerViewAdapter(getContext(), item_photo);
+        photo_recyclerview.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        photo_recyclerview.setAdapter(photoRecyclerViewAdapter);
 
         Log.e("test","여기까지는 작업하냐?");
         return  view;
@@ -123,6 +137,8 @@ public class FragSavedPhoto extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        item_photo = new ArrayList<>();
 
 //        if(check != null){
 //            check = getArguments().getString("selected_id");

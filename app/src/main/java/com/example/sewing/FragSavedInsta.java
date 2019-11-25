@@ -1,10 +1,10 @@
 package com.example.sewing;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,9 +14,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -170,12 +168,17 @@ public class FragSavedInsta extends Fragment {
                     int position = rv.getChildAdapterPosition(child);
                     String insta_id = item_instas.get(position).getId();
                     Log.d(insta_id, "test click");
-                    FragSavedPhoto fragSavedPhoto = new FragSavedPhoto(insta_id);
-                    FragmentManager fragmentManager = getFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.main_fragSavedInsta,fragSavedPhoto).commit();
+//                    FragSavedPhoto fragSavedPhoto = new FragSavedPhoto(insta_id);
+//                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+//                    transaction.replace(R.id.testID, new FragSavedPhoto(insta_id));
+//                    transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//                    transaction.addToBackStack(null);
+//                    transaction.commit();
 
-                    vp.setCurrentItem(vp.getCurrentItem()+1, true);
+//                    vp.setCurrentItem(vp.getCurrentItem()+1, true);
+                    Activity act = getActivity();
+                    Intent intent = new Intent(act, Click_photo_Activity.class);
+                    startActivity(intent);
 
                 }
 
