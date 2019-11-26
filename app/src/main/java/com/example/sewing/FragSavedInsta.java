@@ -160,47 +160,11 @@ public class FragSavedInsta extends Fragment {
                 intent.putExtra("insta_id", insta_id);
                 intent.putExtra("login_id",logined_id);
                 startActivity(intent);
+                act.finish();
 
             }
         });
 
-
-//        insta_recyclerview.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-//            @Override
-//            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-//
-//                View child = rv.findChildViewUnder(e.getX(), e.getY());
-//
-//                if( child != null){
-//                    int position = rv.getChildAdapterPosition(child);
-//                    String insta_id = item_instas.get(position).getId();
-//                    Log.d(insta_id, "test click");
-////                    FragSavedPhoto fragSavedPhoto = new FragSavedPhoto(insta_id);
-////                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
-////                    transaction.replace(R.id.testID, new FragSavedPhoto(insta_id));
-////                    transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-////                    transaction.addToBackStack(null);
-////                    transaction.commit();
-//
-////                    vp.setCurrentItem(vp.getCurrentItem()+1, true);
-//
-//
-//                }
-//
-//                return true;
-//            }
-//
-//            @Override
-//            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-//
-//
-//            }
-//
-//            @Override
-//            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-//
-//            }
-//        });
 
         return view;
     }

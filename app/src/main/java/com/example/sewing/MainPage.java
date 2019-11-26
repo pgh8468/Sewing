@@ -40,7 +40,7 @@ public class MainPage extends AppCompatActivity {
 
         tabLayout.getTabAt(0).setIcon(R.drawable.star);
         tabLayout.getTabAt(1).setIcon(R.drawable.photo);
-        tabLayout.getTabAt(2).setIcon(R.drawable.shopping);
+        tabLayout.getTabAt(2).setIcon(R.drawable.search);
     }
 
 

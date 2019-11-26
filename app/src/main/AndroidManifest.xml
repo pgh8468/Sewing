@@ -25,7 +25,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainPage" />
-        <activity android:name=".Click_photo_Activity" />
     </application>
 
 </manifest>

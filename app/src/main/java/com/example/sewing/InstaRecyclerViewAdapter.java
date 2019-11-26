@@ -76,21 +76,6 @@ public class InstaRecyclerViewAdapter extends RecyclerView.Adapter<InstaRecycler
 //        holder.save_profile.setImageResource(insta_data.get(position).getProfile());
         Glide.with(this.context).load(insta_data.get(position).getProfile()).into(holder.save_profile);
 
-//        //원하는 ID 클릭 시 인스타그램에서 사진 가져오도록 함
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(context, FragSavedPhoto.class);
-//
-//                Toast.makeText(context, holder.save_id.getText(), Toast.LENGTH_SHORT).show();
-//                Toast.makeText(context,logined_ID, Toast.LENGTH_SHORT).show();
-//
-//                vp.setCurrentItem(vp.getCurrentItem()+1, true);
-//
-//
-//            }
-//        });
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

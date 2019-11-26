@@ -54,9 +54,6 @@ public class FragSavedPhoto extends Fragment {
     public FragSavedPhoto(String check){
         this.check = check;
         Log.e("fragsavephoto : ",check);
-//        Bundle args = new Bundle();
-//        args.putString("selected_id", check);
-//        this.setArguments(args);
 
     }
 
@@ -97,11 +94,9 @@ public class FragSavedPhoto extends Fragment {
                 }
 
                 else{
-
                     JSONArray jsonArray = new JSONArray(response);
                     for(int i =0; i<jsonArray.length(); i++){
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
-
                         Item_Photo ip = new Item_Photo();
                         if(jsonObject.get("iURL").toString() != null){
                             //가져온 이미지가 null일 경우의 default image 처리
@@ -109,10 +104,7 @@ public class FragSavedPhoto extends Fragment {
                             item_photo.add(ip);
                         }
 
-
                     }
-
-
 
                 }
             } catch (ExecutionException e) {
@@ -124,8 +116,6 @@ public class FragSavedPhoto extends Fragment {
             }
 
         }
-
-
 
         PhotoRecyclerViewAdapter photoRecyclerViewAdapter = new PhotoRecyclerViewAdapter(getContext(), item_photo, check);
         photo_recyclerview.setLayoutManager(new GridLayoutManager(getContext(), 3));
@@ -140,53 +130,7 @@ public class FragSavedPhoto extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-//        if(check != null){
-//            check = getArguments().getString("selected_id");
-//            Activity act = getActivity();
-//            Log.d(check, "test click/f");
-//            Toast.makeText(act,"흥민아 떳냐? "+ check, Toast.LENGTH_SHORT).show();
-//            URL_make url_make = new URL_make("print_insta_ID");
-//            String inputURL = url_make.make_url();
-//            String response = "";
-//            String url_1 = "https://icon-library.net/images/no-image-available-icon/no-image-available-icon-6.jpg";
-//
-//            try {
-//                response = new get_image_resource().execute(inputURL).get();
-//                JSONArray jsonArray = new JSONArray(response);
-//                //Log.e("ary", jsonArray.toString());
-//
-//                for(int i=0; i<jsonArray.length(); i++){
-//                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-//                    //Log.e("ary", jsonObject.get("src").toString());
-//
-//                    if (jsonObject.get("src").toString() == null){
-//                        url_1 = "https://icon-library.net/images/no-image-available-icon/no-image-available-icon-6.jpg";
-//                    }
-//                    Item_Photo ip = new Item_Photo();
-//                    ip.setPhoto(jsonObject.get("src").toString());
-//                    item_photo.add(ip);
-//
-//                    //url_1 = jsonObject.get("src").toString();
-//                }
-//
-//            } catch (ExecutionException e) {
-//                e.printStackTrace();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
-
-//        item_photo.add(new Item_Photo(R.drawable.tprud));
-//        item_photo.add(new Item_Photo(R.drawable.ab));
-//        item_photo.add(new Item_Photo(R.drawable.ac));
-//        item_photo.add(new Item_Photo(R.drawable.ad));
-//        item_photo.add(new Item_Photo(R.drawable.aw));
-
     }
-
 
     public class Take_Saved_Image extends AsyncTask<String, Void, String>{
 

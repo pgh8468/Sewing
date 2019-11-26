@@ -28,7 +28,7 @@
 
     <Button
         android:id="@+id/Add_shop_btn"
-        android:text="ADD"
+        android:text="Search"
         android:background="@drawable/bg_button_white"
         android:fontFamily="@font/gtham"
         android:layout_width="match_parent"
@@ -37,11 +37,12 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/shop_recyclerview"
+    <WebView
+        android:id="@+id/webView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="530dp"
+        android:visibility="invisible">
 
-    </androidx.recyclerview.widget.RecyclerView>
+    </WebView>
 
 </LinearLayout>
