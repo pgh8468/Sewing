@@ -1,11 +1,14 @@
 package com.example.sewing;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -28,6 +31,7 @@ public class Photo_Activity extends AppCompatActivity {
     private ViewPagerAdapter viewPagerAdapter;
     private ViewPager viewPager;
     String insta_id;
+    String login_id;
     private List<Item_Photo> item_photos;
 
     @Override
@@ -35,7 +39,9 @@ public class Photo_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_);
         Intent intent = getIntent();
+        login_id = intent.getExtras().getString("login_id");
         insta_id = intent.getExtras().getString("insta_id");
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE); //캡쳐 못하게 함
         Toast.makeText(getApplicationContext(),insta_id, Toast.LENGTH_SHORT);
         item_photos = new ArrayList<>();
 
@@ -50,18 +56,23 @@ public class Photo_Activity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"선택된 계정에서 사람으로 분류된 사진이 존재하지 않습니다 ;ㅁ;",Toast.LENGTH_SHORT).show();
 
             }
+            else if(response.equals("5")){
+                Toast.makeText(getApplicationContext(),"게시글이 존재하지 않는 계정입니다.",Toast.LENGTH_SHORT).show();
+            }
             else {
                 JSONArray jsonArray = new JSONArray(response);
 
                 for( int i =0 ; i <jsonArray.length(); i++){
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-                    if(jsonObject.get("src").toString() == null){
+                    Log.e("array",jsonObject.get("src").toString());
+                    if(!jsonObject.get("src").equals(null)){
                         //가져온 이미지가 null일때의 이미지 처리
+                        Item_Photo ip = new Item_Photo();
+                        ip.setPhoto(jsonObject.get("src").toString());
+                        item_photos.add(ip);
+
                     }
-                    Item_Photo ip = new Item_Photo();
-                    ip.setPhoto(jsonObject.get("src").toString());
-                    item_photos.add(ip);
+
 
                 }
 
@@ -77,8 +88,9 @@ public class Photo_Activity extends AppCompatActivity {
 
         viewPager = findViewById(R.id.viewPagerbyPhoto);
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-
-        viewPagerAdapter.AddFragment(new FragSavedPhoto(item_photos), "");
+        FragSavedPhoto fragSavedPhoto = new FragSavedPhoto(item_photos, insta_id);
+        fragSavedPhoto.setCheck(login_id);
+        viewPagerAdapter.AddFragment(fragSavedPhoto, "");
         viewPager.setAdapter(viewPagerAdapter);
 
     }

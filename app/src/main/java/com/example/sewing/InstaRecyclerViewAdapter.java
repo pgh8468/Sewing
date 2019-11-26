@@ -36,13 +36,17 @@ public class InstaRecyclerViewAdapter extends RecyclerView.Adapter<InstaRecycler
     List<Item_insta> insta_data; //item_insta의 아이템을 가르킴
     String logined_ID;
     ViewPager vp;
+    private ItemClick itemClick;
 
-
-    public interface OnListItemSelectedInterface{
-        void onItemSelected(View v, int position);
+    public interface ItemClick{
+        void OnClick(View v, int position);
     }
 
-    private OnListItemSelectedInterface onListItemSelectedInterface;
+    public void setItemClick(ItemClick itemClick){
+        this.itemClick = itemClick;
+    }
+
+
 
     public InstaRecyclerViewAdapter(Context context, List<Item_insta> insta_data, String logined_ID, ViewPager vp) {
         this.context = context;
@@ -86,6 +90,15 @@ public class InstaRecyclerViewAdapter extends RecyclerView.Adapter<InstaRecycler
 //
 //            }
 //        });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(itemClick != null){
+                    itemClick.OnClick(v, position);
+                }
+            }
+        });
 
         //ID 삭제
         holder.delete_Id.setOnClickListener(new View.OnClickListener() {
