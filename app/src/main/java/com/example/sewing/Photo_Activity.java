@@ -1,9 +1,12 @@
 package com.example.sewing;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDialog;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,6 +36,14 @@ public class Photo_Activity extends AppCompatActivity {
     String insta_id;
     String login_id;
     private List<Item_Photo> item_photos;
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainPage.class);
+        intent.putExtra("login_ID",login_id);
+        startActivity(intent);
+        finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +147,7 @@ public class Photo_Activity extends AppCompatActivity {
             return output.toString();
         }
     }
+
 
 
 }

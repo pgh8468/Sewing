@@ -6,6 +6,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.WindowManager;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -20,6 +21,7 @@ public class MainPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainpage);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE); //캡쳐 못하게 함
 
         Intent intent = getIntent();
         logined_id = intent.getExtras().getString("login_ID");

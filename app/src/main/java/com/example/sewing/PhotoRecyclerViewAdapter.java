@@ -118,8 +118,52 @@ public class PhotoRecyclerViewAdapter extends RecyclerView.Adapter<PhotoRecycler
                     alertDialog.show();
 
                 }
+                else if (context.getClass().getSimpleName().trim().equals("MainPage")){
+                    Toast.makeText(context,"hello",Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("사진 삭제").setMessage("해당 사진을 보관함에서 삭제하시겠습니까?");
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String src = photo_data.get(position).getPhoto();
+                            Log.e("src", src);
+                            URL_make url_make = new URL_make("delete_selected_image");
+                            String inputURL = url_make.make_url();
+                            String results = "";
+
+                            try {
+                                results = new DeleteSelectedImage().execute(inputURL,login_id, src).get();
+
+                                if(results.equals("0")){
+                                    Toast.makeText(context,"사진 삭제에 실패하셨습니다.",Toast.LENGTH_SHORT).show();
+                                }
+                                else if(results.equals("1")){
+                                    Toast.makeText(context,"완료.",Toast.LENGTH_SHORT).show();
+                                    photo_data.remove(position);
+                                    notifyItemRemoved(position);
+                                    notifyItemRangeChanged(position,photo_data.size());
+                                }
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    });
+                    builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(context,"No 버튼을 눌렀습니다.",Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }
+
                 else{
-                    //Toast.makeText(context,"hello",Toast.LENGTH_SHORT).show();
+
                 }
             }
         });
@@ -144,6 +188,48 @@ public class PhotoRecyclerViewAdapter extends RecyclerView.Adapter<PhotoRecycler
     }
 
     public class SaveSelectedImage extends AsyncTask<String, Void, String>{
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            StringBuilder output = new StringBuilder();
+
+            try {
+                URL url = new URL(params[0]);
+                HttpURLConnection con = (HttpURLConnection)url.openConnection();
+
+                con.setRequestMethod("POST");
+                con.setDoInput(true);
+                con.setDoOutput(true);
+
+                DataOutputStream dos = new DataOutputStream(con.getOutputStream());
+                params[2] = params[2].replace("&","*");
+                dos.writeBytes("image_src="+params[2]+"&login_id="+params[1]);
+                dos.flush();
+                dos.close();
+
+                InputStreamReader is = new InputStreamReader(con.getInputStream());
+                BufferedReader reader = new BufferedReader(is);
+                String results = "";
+
+                while (true){
+                    results = reader.readLine();
+                    if(results == null){
+                        break;
+                    }output.append(results);
+                }
+
+                con.disconnect();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return output.toString();
+        }
+    }
+
+    public class DeleteSelectedImage extends AsyncTask<String, Void, String>{
 
         @Override
         protected String doInBackground(String... params) {
